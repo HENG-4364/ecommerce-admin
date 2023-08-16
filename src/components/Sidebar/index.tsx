@@ -23,33 +23,38 @@ export function Sidebar() {
       <ul>
         <li>
           <Link href="/">
-            <FontAwesomeIcon className="nav-link-icon " icon={faDashboard} />
+            {/* <FontAwesomeIcon className="nav-link-icon " icon={faDashboard} /> */}
+            <i className="fa-solid fa-gauge nav-link-icon"></i>
             <span className="nav-link-label">Dashboard</span>
             {/* <span className="badge badge-danger badge-small">2</span> */}
           </Link>
         </li>
         <li>
           <Link href="/files">
-            <FontAwesomeIcon className="nav-link-icon " icon={faFolderOpen} />
+            {/* <FontAwesomeIcon className="nav-link-icon " icon={faFolderOpen} /> */}
+            <i className="fa-solid fa-folder-tree nav-link-icon"></i>
             <span className="nav-link-label">Categories</span>
           </Link>
         </li>
         <li>
           <Link href="/activities">
-            <FontAwesomeIcon className="nav-link-icon " icon={faShieldHalved} />
+            <i className="fa-solid fa-diagram-project nav-link-icon"></i>
+            {/* <FontAwesomeIcon className="nav-link-icon " icon={faShieldHalved} /> */}
             <span className="nav-link-label">Products</span>
             {/* <span className="badge badge-warning">New</span> */}
           </Link>
         </li>
         <li className="flex-grow-1">
           <Link href="/users">
-            <FontAwesomeIcon className="nav-link-icon " icon={faUsers} />
+            <i className="fa-solid fa-user-shield nav-link-icon"></i>
+            {/* <FontAwesomeIcon className="nav-link-icon " icon={faUsers} /> */}
             <span className="nav-link-label">Users</span>
           </Link>
         </li>
         <li>
           <Link href="/settings">
-            <FontAwesomeIcon className="nav-link-icon " icon={faCogs} />
+            <i className="fa-solid fa-gear nav-link-icon"></i>
+            {/* <FontAwesomeIcon className="nav-link-icon " icon={faCogs} /> */}
             <span className="nav-link-label">Settings</span>
           </Link>
         </li>
