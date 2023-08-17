@@ -79,7 +79,7 @@ export default function TableCategoriesList() {
                             className="btn btn-primary btn-sm btn-rounded waves-effect waves-light text-light"
                             style={{ marginRight: 12 }}
                           >
-                            <a className="fa-solid fa-pen-to-square"></a> Edit
+                            <a className="fa-solid fa-pen-to-square text-light"></a> Edit
                           </Link>
                         </td>
                       </tr>

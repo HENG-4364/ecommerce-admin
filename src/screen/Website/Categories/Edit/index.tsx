@@ -16,7 +16,7 @@ import {
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import useForm from '@/hook';
-import { MUTATION_UPDATE_PRODUCT_CATEGORY, QUERY_PRODUCTS_CATEGORIES } from '@/graphql';
+import { MUTATION_UPDATE_PRODUCT_CATEGORY, QUERY_PRODUCTS_CATEGORY_DETAIL } from '@/graphql';
 import { useMutation, useQuery } from '@apollo/client';
 import { log } from 'console';
 
@@ -28,7 +28,7 @@ type FormInputs = {
   icon: string;
 };
 export default function CategoryUpdateScreen() {
-  const [updateProductCategory] = useMutation(MUTATION_UPDATE_PRODUCT_CATEGORY);
+
   const [selectedOption, setSelectedOption] = useState(null);
   const status = [
     { value: 'public', label: 'PUBLIC' },
@@ -38,7 +38,7 @@ export default function CategoryUpdateScreen() {
   ];
   const router = useRouter();
   const handleClick = () => {
-    router.back();
+    router.push('/website/categories')
   };
 
   const [formData, setFormData] = useState<FormInputs>({
@@ -53,8 +53,8 @@ export default function CategoryUpdateScreen() {
       [name]: value,
     }));
   };
-
-  const { data, loading } = useQuery(QUERY_PRODUCTS_CATEGORIES, {
+  const [updateProductCategory] = useMutation(MUTATION_UPDATE_PRODUCT_CATEGORY);
+  const { data, loading } = useQuery(QUERY_PRODUCTS_CATEGORY_DETAIL, {
     variables: {
       id: Number(router.query.id),
     },
@@ -66,13 +66,13 @@ export default function CategoryUpdateScreen() {
     e.preventDefault();
     updateProductCategory({
       variables: {
-        edit: Number(router.query.id),
+        updateProductCategoryId: Number(router.query.id),
         input: {
           category_name: formData?.category_name
         }
       },
       onCompleted: (data) => {
-        if (data?.createProductCategory) {
+        if (data?.updateProductCategory) {
           //   alert("Created Succesfully");
           router.push(`/website/categories`);
         }
@@ -112,7 +112,7 @@ export default function CategoryUpdateScreen() {
                           name="category_name"
                           placeholder="Category name..."
                           type="text"
-                          defaultValue={data.productCategories.category_name}
+                          defaultValue={data.productCategory.category_name}
                           value={formData.category_name}
                           onChange={handleChange}
                         />

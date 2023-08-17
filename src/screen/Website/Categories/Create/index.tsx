@@ -105,7 +105,7 @@ export default function CategoryCreateScreen() {
                           placeholder="Category name..."
                           type="text"
                           value={formData.category_name}
-                          
+                          required
                           onChange={handleChange}
                         />
                       </FormGroup>

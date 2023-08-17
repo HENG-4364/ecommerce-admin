@@ -5,8 +5,8 @@ export default function WebsiteControl() {
     <>
       <div className="mt-5">
         <div className="row">
-          <div className="col-xl-3 col-sm-6 col-12">
-            <div className="card">
+          <div className="col-xl-3 col-sm-6 col-12 ">
+            <div className="card border-0">
               <div className="card-content">
                 <div className="card-body">
                   <div className="media d-flex">
@@ -29,7 +29,7 @@ export default function WebsiteControl() {
             </div>
           </div>
           <div className="col-xl-3 col-sm-6 col-12">
-            <div className="card">
+            <div className="card border-0">
               <div className="card-content">
                 <div className="card-body">
                   <div className="media d-flex">
@@ -52,94 +52,9 @@ export default function WebsiteControl() {
               </div>
             </div>
           </div>
-          <div className="col-xl-3 col-sm-6 col-12">
-            <div className="card">
-              <div className="card-content">
-                <div className="card-body">
-                  <div className="media d-flex">
-                    <div className="align-self-center">
-                      <i className="icon-graph success font-large-2 float-left"></i>
-                    </div>
-                    <div className="media-body text-right">
-                      <h3>64.89 %</h3>
-                      <span>Bounce Rate</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-xl-3 col-sm-6 col-12">
-            <div className="card">
-              <div className="card-content">
-                <div className="card-body">
-                  <div className="media d-flex">
-                    <div className="align-self-center">
-                      <i className="icon-pointer danger font-large-2 float-left"></i>
-                    </div>
-                    <div className="media-body text-right">
-                      <h3>423</h3>
-                      <span>Total Visits</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-xl-3 col-sm-6 col-12">
-            <div className="card">
-              <div className="card-content">
-                <div className="card-body">
-                  <div className="media d-flex">
-                    <div className="align-self-center">
-                      <i className="icon-pointer danger font-large-2 float-left"></i>
-                    </div>
-                    <div className="media-body text-right">
-                      <h3>423</h3>
-                      <span>Total Visits</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-xl-3 col-sm-6 col-12">
-            <div className="card">
-              <div className="card-content">
-                <div className="card-body">
-                  <div className="media d-flex">
-                    <div className="align-self-center">
-                      <i className="icon-pointer danger font-large-2 float-left"></i>
-                    </div>
-                    <div className="media-body text-right">
-                      <h3>423</h3>
-                      <span>Total Visits</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-xl-3 col-sm-6 col-12">
-            <div className="card">
-              <div className="card-content">
-                <div className="card-body">
-                  <div className="media d-flex">
-                    <div className="align-self-center">
-                      <i className="icon-pointer danger font-large-2 float-left"></i>
-                    </div>
-                    <div className="media-body text-right">
-                      <h3>423</h3>
-                      <span>Total Visits</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
-        <div className="row">
+        {/* <div className="row">
           <div className="col-xl-3 col-sm-6 col-12">
             <div className="card">
               <div className="card-content">
@@ -209,7 +124,7 @@ export default function WebsiteControl() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );
