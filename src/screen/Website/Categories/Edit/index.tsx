@@ -16,8 +16,8 @@ import {
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import useForm from '@/hook';
-import { MUTATION_CREATE_PRODUCT_CATEGORY } from '@/graphql';
-import { useMutation } from '@apollo/client';
+import { MUTATION_UPDATE_PRODUCT_CATEGORY, QUERY_PRODUCTS_CATEGORIES } from '@/graphql';
+import { useMutation, useQuery } from '@apollo/client';
 import { log } from 'console';
 
 const Select = dynamic(() => import('react-select'), {
@@ -27,7 +27,8 @@ type FormInputs = {
   category_name: string;
   icon: string;
 };
-export default function CategoryCreateScreen() {
+export default function CategoryUpdateScreen() {
+  const [updateProductCategory] = useMutation(MUTATION_UPDATE_PRODUCT_CATEGORY);
   const [selectedOption, setSelectedOption] = useState(null);
   const status = [
     { value: 'public', label: 'PUBLIC' },
@@ -53,12 +54,19 @@ export default function CategoryCreateScreen() {
     }));
   };
 
+  const { data, loading } = useQuery(QUERY_PRODUCTS_CATEGORIES, {
+    variables: {
+      id: Number(router.query.id),
+    },
+    fetchPolicy: "no-cache",
+  });
+  if (loading || !data) return <>Loading...</>;
 
-  const [createProductCategory] = useMutation(MUTATION_CREATE_PRODUCT_CATEGORY);
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    createProductCategory({
+    updateProductCategory({
       variables: {
+        edit: Number(router.query.id),
         input: {
           category_name: formData?.category_name
         }
@@ -66,7 +74,7 @@ export default function CategoryCreateScreen() {
       onCompleted: (data) => {
         if (data?.createProductCategory) {
           //   alert("Created Succesfully");
-          router.push("/website/categories");
+          router.push(`/website/categories`);
         }
       },
       refetchQueries: ["productCategories"],
@@ -104,8 +112,8 @@ export default function CategoryCreateScreen() {
                           name="category_name"
                           placeholder="Category name..."
                           type="text"
+                          defaultValue={data.productCategories.category_name}
                           value={formData.category_name}
-                          
                           onChange={handleChange}
                         />
                       </FormGroup>

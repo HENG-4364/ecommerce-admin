@@ -1,17 +1,11 @@
+import { QUERY_PRODUCTS_CATEGORIES } from '@/graphql';
 import { gql, useQuery } from '@apollo/client';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { Badge, Stack } from 'react-bootstrap';
 import { Card, CardBody, CardTitle, Table } from 'reactstrap';
-const QUERY_PRODUCTS_CATEGORIES = gql`
-  query productCategories {
-    productCategories {
-      id
-      category_name
-    }
-  }
-`;
+
 export default function TableCategoriesList() {
   const { data, loading } = useQuery(QUERY_PRODUCTS_CATEGORIES, {});
   if (loading || !data) return <>Loading...</>;
@@ -81,12 +75,12 @@ export default function TableCategoriesList() {
                           </Stack>
                         </td>
                         <td>
-                          <a
+                          <Link href={`/website/categories/edit/${productCategory.id}`}
                             className="btn btn-primary btn-sm btn-rounded waves-effect waves-light text-light"
                             style={{ marginRight: 12 }}
                           >
-                            <i className="fa-solid fa-pen-to-square"></i> Edit
-                          </a>
+                            <a className="fa-solid fa-pen-to-square"></a> Edit
+                          </Link>
                         </td>
                       </tr>
                     </>
