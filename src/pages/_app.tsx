@@ -3,20 +3,25 @@ import { Layout } from '@/components/Layouts';
 import { ToggleMenuProvider } from '@/context/MenuContext';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { ApolloProvider } from '@apollo/client';
+import { client } from '@/libs/apollo';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   return (
     <>
-      <ToggleMenuProvider>
-        {router.pathname === '/login' ? (
-          <Component {...pageProps} />
-        ) : (
-          <Layout>
+      <ApolloProvider client={client}>
+        <ToggleMenuProvider>
+          {router.pathname === '/login' ? (
             <Component {...pageProps} />
-          </Layout>
-        )}
-      </ToggleMenuProvider>
+          ) : (
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          )}
+        </ToggleMenuProvider>
+      </ApolloProvider>
     </>
   );
 }

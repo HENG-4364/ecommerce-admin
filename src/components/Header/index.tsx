@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useToggleMenu } from "@/context/MenuContext";
+import { useToggleMenu } from '@/context/MenuContext';
 import {
   faArrowDown,
   faBars,
@@ -8,8 +8,8 @@ import {
   faCog,
   faMoon,
   faSearch,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export function Header() {
   const { isMenuOpen, toggleMenu } = useToggleMenu();
@@ -55,16 +55,16 @@ export function Header() {
 
           <div className="header-body-right">
             <ul className="navbar-nav">
-
               <li className="nav-item dropdown">
                 <a
                   href="#"
                   className="nav-link profile-nav-link dropdown-toggle"
                   title="User menu"
                   data-toggle="dropdown"
+                  style={{float:"right"}}
                 >
                   <span className="mr-2 d-sm-inline d-none">
-                    Seng Lyheng
+                   Seng Lyheng
                   </span>
                   <figure className="avatar avatar-sm">
                     <img
@@ -110,7 +110,7 @@ export function Header() {
                         Completed Tasks
                         <span className="float-right">%68</span>
                       </h6>
-                      <div className="progress" style={{ width: "5%" }}></div>
+                      <div className="progress" style={{ width: '5%' }}></div>
                     </div>
                   </div>
                 </div>
@@ -118,20 +118,8 @@ export function Header() {
             </ul>
           </div>
         </div>
-
-        <ul className="navbar-nav ml-auto">
-          <li className="nav-item header-toggler">
-            <a href="#" className="nav-link">
-              <FontAwesomeIcon icon={faArrowDown} />
-            </a>
-          </li>
-          <li className="nav-item sidebar-toggler">
-            <a href="#" className="nav-link">
-              <FontAwesomeIcon icon={faCloud} />
-            </a>
-          </li>
-        </ul>
       </div>
+      <hr className="m-0" />
     </div>
   );
 }
