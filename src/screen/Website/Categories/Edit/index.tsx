@@ -16,7 +16,10 @@ import {
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import useForm from '@/hook';
-import { MUTATION_UPDATE_PRODUCT_CATEGORY, QUERY_PRODUCTS_CATEGORY_DETAIL } from '@/graphql';
+import {
+  MUTATION_UPDATE_PRODUCT_CATEGORY,
+  QUERY_PRODUCTS_CATEGORY_DETAIL,
+} from '@/graphql';
 import { useMutation, useQuery } from '@apollo/client';
 import { log } from 'console';
 
@@ -24,11 +27,10 @@ const Select = dynamic(() => import('react-select'), {
   ssr: false,
 });
 type FormInputs = {
-  category_name: string;
-  icon: string;
+  category_name?: string;
+  icon?: string;
 };
 export default function CategoryUpdateScreen() {
-
   const [selectedOption, setSelectedOption] = useState(null);
   const status = [
     { value: 'public', label: 'PUBLIC' },
@@ -38,12 +40,12 @@ export default function CategoryUpdateScreen() {
   ];
   const router = useRouter();
   const handleClick = () => {
-    router.push('/website/categories')
+    router.back();
   };
 
   const [formData, setFormData] = useState<FormInputs>({
-    category_name: '',
-    icon: '',
+    category_name: undefined,
+    icon: undefined,
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -58,18 +60,19 @@ export default function CategoryUpdateScreen() {
     variables: {
       id: Number(router.query.id),
     },
-    fetchPolicy: "no-cache",
+    fetchPolicy: 'no-cache',
   });
   if (loading || !data) return <>Loading...</>;
-
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    const input: any = e.target;
+
     updateProductCategory({
       variables: {
-        updateProductCategoryId: Number(router.query.id),
+        idforcategory: Number(router.query.id),
         input: {
-          category_name: formData?.category_name
-        }
+          category_name: input.category_name.value,
+        },
       },
       onCompleted: (data) => {
         if (data?.updateProductCategory) {
@@ -77,10 +80,8 @@ export default function CategoryUpdateScreen() {
           router.push(`/website/categories`);
         }
       },
-      refetchQueries: ["productCategories"],
-    })
-    // console.log(formData)
-
+      refetchQueries: ['productCategories'],
+    });
   };
   return (
     <>
@@ -89,14 +90,13 @@ export default function CategoryUpdateScreen() {
           <Col md={9}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <div></div>
-              <Link
+              <div
                 className="btn btn-danger mb-3 text-light"
                 style={{ marginLeft: 10 }}
-                href={''}
                 onClick={handleClick}
               >
                 <i className="fa-solid fa-angle-left" /> Back
-              </Link>
+              </div>
             </div>
             <Card className="border-0">
               <CardBody>
@@ -113,7 +113,7 @@ export default function CategoryUpdateScreen() {
                           placeholder="Category name..."
                           type="text"
                           defaultValue={data.productCategory.category_name}
-                          value={formData.category_name}
+                          value={formData?.category_name}
                           onChange={handleChange}
                         />
                       </FormGroup>
