@@ -22,6 +22,7 @@ import {
 } from '@/graphql';
 import { useMutation, useQuery } from '@apollo/client';
 import { log } from 'console';
+import Swal from 'sweetalert2';
 
 const Select = dynamic(() => import('react-select'), {
   ssr: false,
@@ -76,7 +77,13 @@ export default function CategoryUpdateScreen() {
       },
       onCompleted: (data) => {
         if (data?.updateProductCategory) {
-          //   alert("Created Succesfully");
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Your work has been changed',
+            showConfirmButton: false,
+            timer: 1500
+          })
           router.push(`/website/categories`);
         }
       },

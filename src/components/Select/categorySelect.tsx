@@ -25,6 +25,10 @@ export const CategorySelect: React.FC<Props> = ({
     };
   });
 
+  const defaultCategory = data?.productCategories.find(
+    (category: any) => category.id === selectedCategoryId
+  );
+
   return (
     <Select
       onChange={(option: any) => {

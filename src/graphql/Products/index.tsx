@@ -29,7 +29,7 @@ export const QUERY_PRODUCTS_DETAIL = gql`
         id
         category_name
       }
-    }   
+    }
   }
 `;
 export const MUTATION_CREATE_PRODUCT = gql`
@@ -40,5 +40,10 @@ export const MUTATION_CREATE_PRODUCT = gql`
 export const MUTATION_UPDATE_PRODUCT = gql`
   mutation updateProduct($updateProductId: Int!, $input: ProductInput) {
     updateProduct(id: $updateProductId, input: $input)
+  }
+`;
+export const MUTATION_REMOVE_PRODUCT = gql`
+  mutation removeProduct($removeProductId: Int!) {
+    removeProduct(id: $removeProductId)
   }
 `;

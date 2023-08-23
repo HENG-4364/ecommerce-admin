@@ -28,6 +28,7 @@
     "react-select": "^5.7.4",
     "reactstrap": "^9.2.0",
     "sass": "^1.62.1",
+    "sweetalert2": "^11.7.27",
     "typescript": "5.0.4"
   }
 }

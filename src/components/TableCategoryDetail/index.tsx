@@ -9,16 +9,16 @@ import { Card, CardBody, CardTitle, Table } from 'reactstrap';
 import FxDropDown from '../Dropdown';
 import Swal from 'sweetalert2';
 
-export default function ProductTableList() {
+export default function TableCategoriesDetailList({ data }: any) {
   const router = useRouter();
   const handleClick = () => {
     router.back();
   };
-  const [removeProduct]=useMutation(MUTATION_REMOVE_PRODUCT)
-  const { data, loading } = useQuery(QUERY_PRODUCTS, {});
-  if (loading || !data) return <>Loading...</>;
+  const [removeProduct] = useMutation(MUTATION_REMOVE_PRODUCT);
+  // const { data, loading } = useQuery(QUERY_PRODUCTS, {});
+  // if (loading || !data) return <>Loading...</>;
   console.log(data);
-  const confirmToRemove=(removeProductId:number)=>{
+  const confirmToRemove = (removeProductId: number) => {
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -26,27 +26,27 @@ export default function ProductTableList() {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, Remove!'
+      confirmButtonText: 'Yes, Remove!',
     }).then((result) => {
       if (result.isConfirmed) {
         removeProduct({
           variables: {
             removeProductId,
           },
-          refetchQueries: ['products'],
+          refetchQueries: ['productCategory'],
         });
       }
-    })
-  }
+    });
+  };
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Link
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        {/* <Link
           href={'/website/products/create'}
           className=" btn btn-primary text-light mb-3"
         >
           <i className="fa fa-add" /> New Product
-        </Link>
+        </Link> */}
         <Link
           className="btn btn-danger mb-3 text-light"
           style={{ marginLeft: 10 }}
@@ -70,14 +70,13 @@ export default function ProductTableList() {
                   <th>ID</th>
                   <th>Title</th>
                   <th>Price</th>
-                  <th>Category</th>
                   <th>Image</th>
                   <th>Status</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                {data.products.map((product: any, index: any) => {
+                {data?.map((product: any, index: any) => {
                   return (
                     <>
                       <tr>
@@ -92,7 +91,6 @@ export default function ProductTableList() {
                         </td>
                         <td>{product.price}</td>
 
-                        <td>{product.category?.category_name}</td>
                         <td
                           style={{
                             whiteSpace: 'break-spaces',
@@ -113,7 +111,6 @@ export default function ProductTableList() {
                         </td>
 
                         <td>
-                         
                           <FxDropDown>
                             <Dropdown.Item
                               href={`/website/products/edit/${product.id}`}

@@ -19,6 +19,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { log } from 'console';
 import { MUTATION_CREATE_PRODUCT } from '@/graphql/Products';
 import { QUERY_PRODUCTS_CATEGORIES } from '@/graphql';
+import Swal from 'sweetalert2';
 
 const Select = dynamic(() => import('react-select'), {
   ssr: false,
@@ -71,7 +72,13 @@ export default function ProductCreateScreen() {
       },
       onCompleted: (data) => {
         if (data?.createProduct) {
-          //   alert("Created Succesfully");
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Your work has been saved',
+            showConfirmButton: false,
+            timer: 1500
+          })
           router.push('/website/products');
         }
       },

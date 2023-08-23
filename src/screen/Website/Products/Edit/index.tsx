@@ -21,6 +21,7 @@ import {
   QUERY_PRODUCTS_DETAIL,
 } from '@/graphql/Products';
 import { CategorySelect } from '@/components/Select/categorySelect';
+import Swal from 'sweetalert2';
 type FormInputs = {
   product_name?: string;
   description?: string;
@@ -29,8 +30,10 @@ type FormInputs = {
   price?: number;
 };
 
-export default function UpdateProductScreen() {
-  const [selectedCategoryId, setSelectedCategoryId] = useState(0);
+function UpdateProductForm({ defaultValue }: { defaultValue: any }) {
+  const [selectedCategoryId, setSelectedCategoryId] = useState(
+    defaultValue ? defaultValue?.product?.category?.id : 0
+  );
   const router = useRouter();
   const handleClick = () => {
     router.back();
@@ -51,7 +54,14 @@ export default function UpdateProductScreen() {
       },
       onCompleted: (data) => {
         if (data?.updateProduct) {
-          router.push(`/website/products`);
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Your work has been changed',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          router.back();
         }
       },
       refetchQueries: ['products'],
@@ -66,20 +76,13 @@ export default function UpdateProductScreen() {
     }));
   };
   const [formData, setFormData] = useState<FormInputs>({
-    product_name: undefined,
-    description: undefined,
-    sumary: undefined,
-    image: undefined,
-    price: undefined,
+    product_name: defaultValue?.product?.product_name,
+    description: defaultValue?.product?.description,
+    sumary: defaultValue?.product?.sumary,
+    image: defaultValue?.product?.image,
+    price: defaultValue?.product?.price,
   });
   const [updateProduct] = useMutation(MUTATION_UPDATE_PRODUCT);
-
-  const { data, loading } = useQuery(QUERY_PRODUCTS_DETAIL, {
-    variables: {
-      productId: Number(router.query.id),
-    },
-  });
-  if (loading || !data) return <>Loding...</>;
 
   return (
     <>
@@ -111,7 +114,7 @@ export default function UpdateProductScreen() {
                           placeholder="Product name"
                           type="text"
                           value={formData.product_name}
-                          defaultValue={data.product.product_name}
+                          
                           required
                           onChange={handleChange}
                         />
@@ -128,7 +131,7 @@ export default function UpdateProductScreen() {
                           placeholder="Description"
                           type="text"
                           value={formData.description}
-                          defaultValue={data.product.description}
+                     
                           onChange={handleChange}
                         />
                       </FormGroup>
@@ -146,7 +149,7 @@ export default function UpdateProductScreen() {
                           placeholder="Summary"
                           type="text"
                           value={formData.sumary}
-                          defaultValue={data.product.summary}
+                       
                           onChange={handleChange}
                         />
                       </FormGroup>
@@ -162,7 +165,7 @@ export default function UpdateProductScreen() {
                           placeholder="Image"
                           type="text"
                           value={formData.image}
-                          defaultValue={data.product.image}
+                        
                           onChange={handleChange}
                         />
                       </FormGroup>
@@ -176,7 +179,7 @@ export default function UpdateProductScreen() {
                       <CategorySelect
                         selectedCategoryId={selectedCategoryId}
                         setSelectedCategoryId={setSelectedCategoryId}
-                        category={data.product.category}
+                        category={defaultValue.product.category}
                       />
                     </Col>
                     <Col md={6}>
@@ -191,7 +194,7 @@ export default function UpdateProductScreen() {
                           type="number"
                           value={formData.price}
                           onChange={handleChange}
-                          defaultValue={data.product.price}
+                          
                         />
                       </FormGroup>
                     </Col>
@@ -215,4 +218,16 @@ export default function UpdateProductScreen() {
       </div>
     </>
   );
+}
+
+export default function UpdateProductScreen() {
+  const router = useRouter();
+  const { data, loading } = useQuery(QUERY_PRODUCTS_DETAIL, {
+    variables: {
+      productId: Number(router.query.id),
+    },
+    fetchPolicy: 'no-cache',
+  });
+  if (loading || !data) return <>Loding...</>;
+  return <UpdateProductForm defaultValue={data} />;
 }

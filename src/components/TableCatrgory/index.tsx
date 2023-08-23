@@ -1,17 +1,44 @@
-import { QUERY_PRODUCTS_CATEGORIES } from '@/graphql';
-import { gql, useQuery } from '@apollo/client';
+import {
+  MUTATION_REMOVE_PRODUCT_CATEGORY,
+  QUERY_PRODUCTS_CATEGORIES,
+} from '@/graphql';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { Badge, Stack } from 'react-bootstrap';
+import { Badge, Button, Dropdown, Stack } from 'react-bootstrap';
 import { Card, CardBody, CardTitle, Table } from 'reactstrap';
+import FxDropDown from '../Dropdown';
+import Swal from 'sweetalert2';
 
 export default function TableCategoriesList() {
+  const [removeProductCategory] = useMutation(MUTATION_REMOVE_PRODUCT_CATEGORY);
   const { data, loading } = useQuery(QUERY_PRODUCTS_CATEGORIES, {});
   if (loading || !data) return <>Loading...</>;
   const router = useRouter();
   const handleClick = () => {
     router.back();
+  };
+
+  const confirmToRemove = (removeProductCategoryId: number) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Remove!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        removeProductCategory({
+          variables: {
+            removeProductCategoryId,
+          },
+          refetchQueries: ['productCategories'],
+        });
+      }
+    });
   };
   return (
     <>
@@ -50,42 +77,58 @@ export default function TableCategoriesList() {
                 </tr>
               </thead>
               <tbody>
-                {data.productCategories.map((productCategory: any) => {
-                  return (
-                    <>
-                      <tr>
-                        <td>{productCategory.id}</td>
-                        <td
-                          style={{
-                            whiteSpace: 'break-spaces',
-                            width: '70%',
-                          }}
-                        >
-                          {productCategory.category_name}
-                        </td>
-                        <td>dfsdf</td>
-                        <td>
-                          <Stack direction="horizontal" gap={2}>
-                            <Badge
-                              bg="primary"
-                              style={{ fontSize: '10px', padding: '5px 10px' }}
-                            >
-                              PUBLIC
-                            </Badge>
-                          </Stack>
-                        </td>
-                        <td>
-                          <Link href={`/website/categories/edit/${productCategory.id}`}
-                            className="btn btn-primary btn-sm btn-rounded waves-effect waves-light text-light"
-                            style={{ marginRight: 12 }}
+                {data.productCategories.map(
+                  (productCategory: any, index: any) => {
+                    return (
+                      <>
+                        <tr>
+                          <td>{index+1}</td>
+                          <td
+                            style={{
+                              whiteSpace: 'break-spaces',
+                              width: '70%',
+                            }}
                           >
-                            <a className="fa-solid fa-pen-to-square text-light"></a> Edit
-                          </Link>
-                        </td>
-                      </tr>
-                    </>
-                  );
-                })}
+                            {productCategory.category_name}
+                          </td>
+                          <td>dfsdf</td>
+                          <td>
+                            <Stack direction="horizontal" gap={2}>
+                              <Badge
+                                bg="primary"
+                                style={{
+                                  fontSize: '10px',
+                                  padding: '5px 10px',
+                                }}
+                              >
+                                PUBLIC
+                              </Badge>
+                            </Stack>
+                          </td>
+                          <td>
+                            <FxDropDown>
+                              <Dropdown.Item
+                                href={`/website/categories/edit/${productCategory.id}`}
+                              >
+                                <i className="fa-solid fa-pen-to-square  me-1"></i>
+                                Edit
+                              </Dropdown.Item>
+                              <Dropdown.Item
+                                href=""
+                                onClick={() =>
+                                  confirmToRemove(productCategory.id)
+                                }
+                              >
+                                <i className="fa-solid fa-trash  me-1"></i>
+                                Remove
+                              </Dropdown.Item>
+                            </FxDropDown>
+                          </td>
+                        </tr>
+                      </>
+                    );
+                  }
+                )}
               </tbody>
             </Table>
           </div>

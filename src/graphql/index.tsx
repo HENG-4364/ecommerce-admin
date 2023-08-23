@@ -14,7 +14,7 @@ export const QUERY_PRODUCTS_CATEGORIES = gql`
   }
 `;
 export const QUERY_PRODUCTS_CATEGORY_DETAIL = gql`
-  query ProductCategory($id: Int!) {
+  query productCategory($id: Int!) {
     productCategory(id: $id) {
       id
       category_name
@@ -37,3 +37,8 @@ export const MUTATION_UPDATE_PRODUCT_CATEGORY = gql`
     updateProductCategory(id: $idforcategory, input: $input)
   }
 `;
+export const MUTATION_REMOVE_PRODUCT_CATEGORY=gql`
+mutation removeProductCategory($removeProductCategoryId: Int!) {
+  removeProductCategory(id: $removeProductCategoryId)
+}
+`

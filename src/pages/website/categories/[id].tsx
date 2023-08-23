@@ -1,28 +1,26 @@
+import TableCategoriesDetailList from '@/components/TableCategoryDetail';
+import { Title } from '@/components/Title';
+import { QUERY_PRODUCTS_CATEGORY_DETAIL } from '@/graphql';
+import { client } from '@/libs/apollo';
+import { useQuery } from '@apollo/client';
+import { useRouter } from 'next/router';
 
-import { QUERY_PRODUCTS_CATEGORY_DETAIL } from "@/graphql";
-import { client } from "@/libs/apollo";
-
-export default function ProductDetailPage({ category }: any) {
+export default function CategoryDetailPage({ category }: any) {
+  const router = useRouter();
+  const { data, loading } = useQuery(QUERY_PRODUCTS_CATEGORY_DETAIL, {
+    variables: {
+      id: Number(router.query.id),
+    },
+  });
+  if (loading || !data) return <>Loading</>;
   return (
     <>
-      <h1>{category.category_name}</h1>
+      <Title title={`Category: ${data.productCategory?.category_name}`} />
+      <div className="row">
+        <div className="col-9">
+          <TableCategoriesDetailList data={data.productCategory?.products} />
+        </div>
+      </div>
     </>
   );
 }
-
-export const getServerSideProps = async ({ params }: any) => {
-  const { id } = params;
-
-  const { data } = await client.query({
-    query: QUERY_PRODUCTS_CATEGORY_DETAIL,
-    variables: {
-      id: Number(id),
-    },
-  });
-
-  return {
-    props: {
-      category: data.productCategory,
-    },
-  };
-};
