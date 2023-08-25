@@ -2,7 +2,6 @@ import { useToggleMenu } from "@/context/MenuContext";
 import { Footer } from "../Footer";
 import { Header } from "../Header";
 import { Sidebar } from "../Sidebar";
-import { StorageOverview } from "../StorageOverview";
 
 export function Layout({ children }: React.PropsWithChildren<{}>) {
   const { isMenuOpen, toggleMenu } = useToggleMenu();
