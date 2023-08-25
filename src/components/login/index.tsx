@@ -1,3 +1,5 @@
+import { MUTATION_USER_LOGIN } from '@/graphql/Login';
+import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import {
@@ -10,40 +12,24 @@ import {
   Row,
 } from 'reactstrap';
 import Swal from 'sweetalert2';
-
+import jwt from "jsonwebtoken"
 export function Login() {
-  const router = useRouter();
+  const [userLogin]=useMutation(MUTATION_USER_LOGIN)
   const [username,setUsername]=useState("");
   const [password,setPassword]=useState("");
-  const users = [
-    {
-      usernameInput: 'senglyheng2001@gmail.com',
-      passwordInput: 'Admin@123',
-    },
-  ];
+
   const onSubmit = (e: any) => {
     e.preventDefault();
-    console.log('usename', username, 'password', password);
-    let input = { username, password };
-    users.find((user) => {
-      if (
-        user.usernameInput === input.username &&
-        user.passwordInput === input.password
-      ) {
-        localStorage.setItem('login', 'true');
-        router.push('/');
-      }
-      else{
-        Swal.fire({
-          icon: 'error',
-          title: 'Login Failed',
-          text: 'Username Or Password wrong!',
-          footer: '<a href="">Why do I have this issue?</a>',
-          confirmButtonText:"Try Again",
-          confirmButtonColor:"#1e5d86"
-        })
-      }
-    });
+   userLogin({
+    variables:{
+      username,
+      password
+    },
+    onCompleted:(data)=>{
+
+      localStorage.setItem("token",data.userLogin)     
+    }
+   })
   };
 
   return (
