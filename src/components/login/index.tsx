@@ -11,25 +11,24 @@ import {
   InputGroupText,
   Row,
 } from 'reactstrap';
-import Swal from 'sweetalert2';
-import jwt from "jsonwebtoken"
 export function Login() {
-  const [userLogin]=useMutation(MUTATION_USER_LOGIN)
-  const [username,setUsername]=useState("");
-  const [password,setPassword]=useState("");
+  const router = useRouter();
+  const [userLogin] = useMutation(MUTATION_USER_LOGIN);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const onSubmit = (e: any) => {
     e.preventDefault();
-   userLogin({
-    variables:{
-      username,
-      password
-    },
-    onCompleted:(data)=>{
-
-      localStorage.setItem("token",data.userLogin)     
-    }
-   })
+    userLogin({
+      variables: {
+        username,
+        password,
+      },
+      onCompleted: (data) => {
+        localStorage.setItem('token', data.userLogin);
+        router.push('/');
+      },
+    });
   };
 
   return (
@@ -66,7 +65,7 @@ export function Login() {
                   type="text"
                   className="form-control"
                   placeholder="Username or email"
-                  onChange={(e)=>{
+                  onChange={(e) => {
                     setUsername(e.target.value);
                   }}
                 />
@@ -83,7 +82,7 @@ export function Login() {
                   type="password"
                   className="form-control"
                   placeholder="Password"
-                  onChange={(e)=>{
+                  onChange={(e) => {
                     setPassword(e.target.value);
                   }}
                 />

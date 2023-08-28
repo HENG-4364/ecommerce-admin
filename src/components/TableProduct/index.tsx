@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { Badge, Dropdown, Stack } from 'react-bootstrap';
-import { Card, CardBody, CardTitle, Table } from 'reactstrap';
+import { Card, CardBody, CardTitle, Pagination, PaginationItem, PaginationLink, Table } from 'reactstrap';
 import FxDropDown from '../Dropdown';
 import Swal from 'sweetalert2';
 
@@ -14,11 +14,11 @@ export default function ProductTableList() {
   const handleClick = () => {
     router.back();
   };
-  const [removeProduct]=useMutation(MUTATION_REMOVE_PRODUCT)
+  const [removeProduct] = useMutation(MUTATION_REMOVE_PRODUCT);
   const { data, loading } = useQuery(QUERY_PRODUCTS, {});
   if (loading || !data) return <>Loading...</>;
   console.log(data);
-  const confirmToRemove=(removeProductId:number)=>{
+  const confirmToRemove = (removeProductId: number) => {
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -26,7 +26,7 @@ export default function ProductTableList() {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, Remove!'
+      confirmButtonText: 'Yes, Remove!',
     }).then((result) => {
       if (result.isConfirmed) {
         removeProduct({
@@ -36,8 +36,8 @@ export default function ProductTableList() {
           refetchQueries: ['products'],
         });
       }
-    })
-  }
+    });
+  };
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -113,7 +113,6 @@ export default function ProductTableList() {
                         </td>
 
                         <td>
-                         
                           <FxDropDown>
                             <Dropdown.Item
                               href={`/website/products/edit/${product.id}`}
@@ -137,6 +136,35 @@ export default function ProductTableList() {
               </tbody>
             </Table>
           </div>
+          <Pagination aria-label="Page navigation example" className='mt-5 d-flex justify-content-center'>
+            <PaginationItem >
+              <PaginationLink first href="#" />
+            </PaginationItem>
+            <PaginationItem >
+              <PaginationLink href="#" previous />
+            </PaginationItem>
+            <PaginationItem active>
+              <PaginationLink href="#">1</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">2</PaginationLink>
+            </PaginationItem>
+            <PaginationItem >
+              <PaginationLink href="#">3</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">4</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">5</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" next />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" last />
+            </PaginationItem>
+          </Pagination>
         </CardBody>
       </Card>
     </>

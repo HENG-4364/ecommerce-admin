@@ -1,10 +1,15 @@
-import { useToggleMenu } from "@/context/MenuContext";
-import { Footer } from "../Footer";
-import { Header } from "../Header";
-import { Sidebar } from "../Sidebar";
+import { useToggleMenu } from '@/context/MenuContext';
+import { Footer } from '../Footer';
+import { Header } from '../Header';
+import { Sidebar } from '../Sidebar';
+import jwt from 'jsonwebtoken';
+import { useRouter } from 'next/router';
 
 export function Layout({ children }: React.PropsWithChildren<{}>) {
+  const router = useRouter();
+
   const { isMenuOpen, toggleMenu } = useToggleMenu();
+
   return (
     <>
       <div className="layout-wrapper">
@@ -20,7 +25,7 @@ export function Layout({ children }: React.PropsWithChildren<{}>) {
       {isMenuOpen ? (
         <div className="overlay show" onClick={toggleMenu}></div>
       ) : (
-        ""
+        ''
       )}
     </>
   );

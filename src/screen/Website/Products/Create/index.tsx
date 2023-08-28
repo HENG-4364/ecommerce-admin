@@ -29,7 +29,7 @@ type FormInputs = {
   description: string;
   sumary: string;
   image: string;
-  price:number;
+  price: number;
 };
 export default function ProductCreateScreen() {
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
@@ -44,7 +44,7 @@ export default function ProductCreateScreen() {
     description: '',
     sumary: '',
     image: '',
-    price:0,
+    price: 0,
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -67,7 +67,7 @@ export default function ProductCreateScreen() {
           summary: formData?.sumary,
           image: formData?.image,
           category_id: selectedCategoryId,
-          price:Number(formData?.price),
+          price: Number(formData?.price),
         },
       },
       onCompleted: (data) => {
@@ -77,8 +77,8 @@ export default function ProductCreateScreen() {
             icon: 'success',
             title: 'Your work has been saved',
             showConfirmButton: false,
-            timer: 2000
-          })
+            timer: 2000,
+          });
           router.push('/website/products');
         }
       },
@@ -115,7 +115,7 @@ export default function ProductCreateScreen() {
               <CardBody>
                 <Form onSubmit={handleSubmit}>
                   <Row>
-                    <Col md={6}>
+                    <Col md={12}>
                       <FormGroup>
                         <Label for="" className="fw-bolder">
                           Product Name
@@ -131,7 +131,9 @@ export default function ProductCreateScreen() {
                         />
                       </FormGroup>
                     </Col>
-                    <Col md={6}>
+                  </Row>
+                  <Row>
+                    <Col md={12}>
                       <FormGroup>
                         <Label for="" className="fw-bolder">
                           Description
@@ -140,9 +142,10 @@ export default function ProductCreateScreen() {
                           id=""
                           name="description"
                           placeholder="Description"
-                          type="text"
+                          type="textarea"
                           value={formData.description}
                           onChange={handleChange}
+                          style={{ height: '100px' }}
                         />
                       </FormGroup>
                     </Col>
